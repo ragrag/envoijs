@@ -2,7 +2,8 @@
   "name": "envoijs",
   "version": "1.0.0",
   "description": "a prograssive performant multi-language compiler/code-judge",
-  "main": "src/app.js",
+  "main": "dist/app.js",
+  "types": "dist/app.d.ts",
   "scripts": {
     "start": "ts-node src/app",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,6 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/ragrag/envoijs.git"
   },
+  "prepublish": "tsc",
   "author": "",
   "license": "ISC",
   "bugs": {
