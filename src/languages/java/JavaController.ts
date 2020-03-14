@@ -2,7 +2,7 @@ import { LanguageController } from '../../interfaces/LanguageController';
 import SubmissionFile from '../../interfaces/SubmissionFile';
 import FileExtension from 'interfaces/FileExtension';
 
-class JavaHandler implements LanguageController {
+class JavaController implements LanguageController {
   private fileExtension: FileExtension = { inputExtension: 'java', outputExtension: 'class' };
   public getExtension(): FileExtension {
     return this.fileExtension;
@@ -27,4 +27,4 @@ class JavaHandler implements LanguageController {
   }
 }
 
-export default JavaHandler;
+export default JavaController;

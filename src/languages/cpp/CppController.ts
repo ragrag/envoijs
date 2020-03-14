@@ -2,7 +2,7 @@ import { LanguageController } from '../../interfaces/LanguageController';
 import SubmissionFile from '../../interfaces/SubmissionFile';
 import FileExtension from 'interfaces/FileExtension';
 
-class CppHandler implements LanguageController {
+class CppController implements LanguageController {
   private fileExtension: FileExtension = { inputExtension: 'cpp', outputExtension: 'o' };
   public getExtension(): FileExtension {
     return this.fileExtension;
@@ -24,4 +24,4 @@ class CppHandler implements LanguageController {
   }
 }
 
-export default CppHandler;
+export default CppController;

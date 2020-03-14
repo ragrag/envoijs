@@ -1,26 +1,27 @@
 import { LanguageController } from '../../interfaces/LanguageController';
 import SubmissionFile from '../../interfaces/SubmissionFile';
-import FileExtension from 'interfaces/FileExtension';
+import FileExtension from '../../interfaces/FileExtension';
 
-class CppHandler implements LanguageController {
+class PythonController implements LanguageController {
+  private fileExtension: FileExtension = { inputExtension: 'py', outputExtension: '' };
   public getExtension(): FileExtension {
-    return { inputExtension: 'cpp', outputExtension: 'o' };
+    return this.fileExtension;
   }
 
   public getExecutionCommand(submissionFileData: SubmissionFile): string {
-    return `${submissionFileData.path}\\${submissionFileData.outputFileName}`;
+    return `python ${submissionFileData.path}\\${submissionFileData.outputFileName}.${this.fileExtension.inputExtension}`;
   }
 
   public getCompilationCommand(submissionFileData: SubmissionFile): string {
-    return `g++ ${submissionFileData.path}/${submissionFileData.inputFileName} -std=c++11 -o ${submissionFileData.path}\\${submissionFileData.outputFileName}`;
+    return null;
   }
 
   public needsCompilation() {
-    return true;
+    return false;
   }
   public getCheckCommand(): string {
-    return `g++ --version`;
+    return `python --version`;
   }
 }
 
-export default CppHandler;
+export default PythonController;

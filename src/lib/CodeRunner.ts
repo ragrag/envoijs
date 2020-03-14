@@ -23,7 +23,7 @@ export default class CodeRunner {
             const userOutput = result.replace(/(\r\n|\n|\r)/gm, '');
             if (userOutput !== expectedOutput) {
               return {
-                output: `For input: ${input}\n found: ${userOutput}\nexpected:${expectedOutput}`,
+                output: `For input: ${input}\nFound: ${userOutput}\nExpected:${expectedOutput}`,
                 verdict: data.WA
               };
             }
