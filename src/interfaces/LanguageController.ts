@@ -1,13 +1,12 @@
 import SubmissionFile from './SubmissionFile';
-import { SubmissionVerdict } from './Verdict';
-import TestCase from './TestCase';
 import FileExtension from './FileExtension';
 
-interface LanguageHandler {
+interface LanguageController {
   getExtension(): FileExtension;
   needsCompilation(): boolean;
   getCompilationCommand(submissionFileData: SubmissionFile): string;
   getExecutionCommand(submissionFileData: SubmissionFile): string;
+  getCheckCommand(): string;
 }
 
-export { LanguageHandler };
+export { LanguageController };

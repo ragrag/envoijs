@@ -1,12 +1,13 @@
-import CppHandler from './cpp/CppHandler';
-import JavaHandler from './java/JavaHandler';
+import CppHandler from './cpp/CppController';
+import JavaHandler from './java/JavaController';
+import Languages from '../interfaces/Languages';
 
 class LanguageFactory {
   constructor(language: string) {
     switch (language) {
-      case 'c++':
+      case Languages.CPP:
         return new CppHandler();
-      case 'java':
+      case Languages.JAVA:
         return new JavaHandler();
       default:
         throw new Error('Language not supported');

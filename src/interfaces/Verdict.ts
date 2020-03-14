@@ -11,7 +11,13 @@ enum Verdict {
 
 interface SubmissionVerdict {
   verdict: string;
-  message: string;
+  output: string;
 }
 
-export { Verdict, SubmissionVerdict };
+const forkSubmissionVerdict = (output: string, verdict: string): SubmissionVerdict => {
+  return {
+    output,
+    verdict
+  };
+};
+export { Verdict, SubmissionVerdict, forkSubmissionVerdict };

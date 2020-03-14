@@ -1,5 +1,5 @@
 import { SubmissionVerdict, Verdict } from '../interfaces/Verdict';
-import TestCase from '../interfaces/TestCase';
+import TestCase from '../dto/TestCase';
 import * as child_process from 'child_process';
 import Formatter from './helpers/Formatter';
 import { start, job, stop } from 'microjob';
@@ -23,7 +23,7 @@ export default class CodeRunner {
             const userOutput = result.replace(/(\r\n|\n|\r)/gm, '');
             if (userOutput !== expectedOutput) {
               return {
-                message: `For input: ${input}\n found: ${userOutput}\nexpected:${expectedOutput}`,
+                output: `For input: ${input}\n found: ${userOutput}\nexpected:${expectedOutput}`,
                 verdict: data.WA
               };
             }
@@ -34,21 +34,18 @@ export default class CodeRunner {
 
       if (res) return res;
       return {
-        message: 'passed!',
+        output: 'passed!',
         verdict: Verdict.AC
       };
     } catch (err) {
-      return {
-        message: '',
-        verdict: Verdict.RUNTIME
-      };
+      throw err;
     } finally {
       // stop worker pool
       await stop();
     }
   }
 
-  public async runCode(executionCommand: string): Promise<string> {
+  public async runCode(executionCommand: string, input: string): Promise<SubmissionVerdict> {
     try {
       await start();
       const stdout: string = await job(
@@ -56,15 +53,19 @@ export default class CodeRunner {
           const childProcess = require('child_process');
 
           const consoleOutput: string = childProcess.execSync(data.executionCommand, {
-            encoding: 'utf-8'
+            encoding: 'utf-8',
+            input: data.input
           });
-          return stdout;
+          return consoleOutput;
         },
-        { data: { executionCommand } }
+        { data: { executionCommand, input } }
       );
-      return stdout;
+      return {
+        verdict: Verdict.AC,
+        output: stdout
+      };
     } catch (err) {
-      throw new Error('RUNTIME ERROR');
+      throw err;
     } finally {
       // stop worker pool
       await stop();
