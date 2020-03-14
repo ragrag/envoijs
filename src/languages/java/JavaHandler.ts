@@ -1,37 +1,26 @@
 import { LanguageHandler } from '../../interfaces/LanguageHandler';
-import commandDispatcher from '../../lib/helpers/CommandDispatcher';
 import SubmissionFile from '../../interfaces/SubmissionFile';
-import * as child_process from 'child_process';
-import { SubmissionVerdict, Verdict } from '../../interfaces/Verdict';
-import TestCase from '../../interfaces/TestCase';
-import TestCaseValidator from '../../lib/TestCaseValidator';
+import FileExtension from 'interfaces/FileExtension';
 
 class JavaHandler implements LanguageHandler {
-  public getExtension(): string {
-    return '.java';
-  }
-  public async executeSubmissionWithTestCases(submissionFileData: SubmissionFile, testCases: TestCase[]): Promise<SubmissionVerdict> {
-    try {
-      const executionCommand = `${submissionFileData.path}\\${submissionFileData.outputFileName}.o`;
-      const result: SubmissionVerdict = await TestCaseValidator.validateTestCases(executionCommand, testCases);
-      return result;
-    } catch (err) {
-      return {
-        message: 'error in bla bla',
-        verdict: Verdict.RUNTIME
-      };
-    }
+  public getExtension(): FileExtension {
+    return { inputExtension: 'java', outputExtension: 'class' };
   }
 
-  public async compileSubmission(submissionFileData: SubmissionFile): Promise<any> {
+  public getExecutionCommand(submissionFileData: SubmissionFile): string {
     try {
-      const { stderr, stdout }: any = (await commandDispatcher(
-        `javac ${submissionFileData.path}/${submissionFileData.inputFileName} -d ${submissionFileData.path}`
-      )) as any;
-      return { stderr, stdout };
+      return `${submissionFileData.path}\\${submissionFileData.outputFileName}`;
     } catch (err) {
       throw err;
     }
+  }
+
+  public getCompilationCommand(submissionFileData: SubmissionFile): string {
+    return `g++ ${submissionFileData.path}/${submissionFileData.inputFileName} -std=c++11 -o ${submissionFileData.path}\\${submissionFileData.outputFileName}`;
+  }
+
+  public needsCompilation() {
+    return true;
   }
 }
 

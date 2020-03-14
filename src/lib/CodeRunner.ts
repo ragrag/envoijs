@@ -4,8 +4,8 @@ import * as child_process from 'child_process';
 import Formatter from './helpers/Formatter';
 import { start, job, stop } from 'microjob';
 
-export default class TestCaseValidator {
-  public static async validateTestCases(executionCommand: string, testCases: TestCase[]): Promise<SubmissionVerdict> {
+export default class CodeRunner {
+  public async runCodeWithTestCases(executionCommand: string, testCases: TestCase[]): Promise<SubmissionVerdict> {
     try {
       await start();
       const res = await job(
@@ -42,6 +42,29 @@ export default class TestCaseValidator {
         message: '',
         verdict: Verdict.RUNTIME
       };
+    } finally {
+      // stop worker pool
+      await stop();
+    }
+  }
+
+  public async runCode(executionCommand: string): Promise<string> {
+    try {
+      await start();
+      const stdout: string = await job(
+        data => {
+          const childProcess = require('child_process');
+
+          const consoleOutput: string = childProcess.execSync(data.executionCommand, {
+            encoding: 'utf-8'
+          });
+          return stdout;
+        },
+        { data: { executionCommand } }
+      );
+      return stdout;
+    } catch (err) {
+      throw new Error('RUNTIME ERROR');
     } finally {
       // stop worker pool
       await stop();

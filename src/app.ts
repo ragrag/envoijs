@@ -1,53 +1,6 @@
-import FileManager from './lib/FileManager';
-import LanguageFactory from './languages/LanguageFactory';
-import { LanguageHandler } from './interfaces/LanguageHandler';
-import { SubmissionVerdict } from './interfaces/Verdict';
-import TestCase from './interfaces/TestCase';
-
-class Judge {
-  private fileManager: FileManager;
-  private languageHandler: LanguageHandler;
-  constructor(language: string) {
-    this.languageHandler = new LanguageFactory(language) as LanguageHandler;
-    this.fileManager = new FileManager(this.languageHandler.getExtension());
-  }
-
-  public async createSubmissionFile(code: string): Promise<void> {
-    try {
-      await this.fileManager.createSubmissionFile(code);
-    } catch (err) {
-      // throw boom 500, unable to create file
-      console.log('caught', err.message);
-      throw err;
-    }
-  }
-
-  public async compileSubmission(): Promise<string> {
-    try {
-      const { error, stderr, stdout } = await this.languageHandler.compileSubmission(this.fileManager.getSubmissionFileData());
-      if (stderr) throw stderr;
-      if (error) throw new Error('Compile Time Error');
-      return stdout;
-    } catch (err) {
-      await this.fileManager.deleteSubmissionFile();
-      throw new Error(`Compile Time Error\n${err}`);
-    }
-  }
-
-  public async executeSubissionWithTestCases(testCases: TestCase[]): Promise<SubmissionVerdict> {
-    try {
-      const submissionResult: SubmissionVerdict = await this.languageHandler.executeSubmissionWithTestCases(
-        this.fileManager.getSubmissionFileData(),
-        testCases
-      );
-      await this.fileManager.deleteSubmissionFile();
-      return submissionResult;
-    } catch (err) {
-      await this.fileManager.deleteSubmissionFile();
-      throw err;
-    }
-  }
-}
+import MainController from './lib/MainController';
+import TestCase from 'interfaces/TestCase';
+import { SubmissionVerdict } from 'interfaces/Verdict';
 
 async function init() {
   //   const { stderr, stdout } = (await execShellCommand(cppCMD)) as any;
@@ -87,9 +40,12 @@ cout<<sums<<endl;
 `;
 
   try {
-    const judgeInstance: Judge = new Judge('c++');
-    await judgeInstance.createSubmissionFile(code);
-    await judgeInstance.compileSubmission();
+    const language = 'c++';
+
+    const mainInstance: MainController = new MainController(language);
+    await mainInstance.createSubmissionFile(code);
+    await mainInstance.compileSourceCode();
+
     const testCases: TestCase[] = [
       { input: '4 2 3 5 7', expectedOutput: '17' },
       { input: '2 2 3', expectedOutput: '5' },
@@ -492,8 +448,10 @@ cout<<sums<<endl;
       { input: '4 2 3 5 7', expectedOutput: '17' },
       { input: '2 2 3', expectedOutput: '5' }
     ];
-    const submissionResult: SubmissionVerdict = await judgeInstance.executeSubissionWithTestCases(testCases);
-    console.log('output ', submissionResult);
+
+    const submissionResult: SubmissionVerdict = await mainInstance.runCodeWithTestCases(testCases);
+    console.log(submissionResult);
+    await mainInstance.cleanUp();
   } catch (err) {
     throw err;
   }

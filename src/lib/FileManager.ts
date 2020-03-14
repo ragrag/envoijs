@@ -1,19 +1,22 @@
 import { promises as fsp } from 'fs';
 import * as shortid from 'shortid';
 import SubmissionFile from '../interfaces/SubmissionFile';
+import FileExtension from 'interfaces/FileExtension';
 
 class FileManager {
   private submissionFileData: SubmissionFile;
 
-  constructor(fileExtension: string) {
+  constructor(fileExtension: FileExtension) {
+    const randomName = shortid.generate();
     this.submissionFileData = {
-      inputFileName: `${shortid.generate()}.${fileExtension}`,
-      outputFileName: `main`,
-      path: 'C:\\\\Users\\ragrag\\Desktop\\go-playground\\tmp'
+      inputFileName: `${randomName}.${fileExtension.inputExtension}`,
+      outputFileName: `${randomName}.${fileExtension.outputExtension}`,
+      path: `${__dirname}/tmp`
     };
   }
   public async createSubmissionFile(code: string): Promise<void> {
     try {
+      await fsp.mkdir(`${this.submissionFileData.path}`, { recursive: true });
       await fsp.writeFile(`${this.submissionFileData.path}/${this.submissionFileData.inputFileName}`, code, { flag: 'w' });
     } catch (err) {
       throw err;
@@ -24,7 +27,12 @@ class FileManager {
     try {
       await fsp.unlink(`${this.submissionFileData.path}/${this.submissionFileData.inputFileName}`);
     } catch (err) {
-      throw err;
+      //
+    }
+    try {
+      await fsp.unlink(null);
+    } catch (err) {
+      //
     }
   }
 
