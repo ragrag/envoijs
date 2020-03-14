@@ -24,9 +24,8 @@ class FileManager {
   }
   public async createSubmissionFile(code: string): Promise<void> {
     try {
-      if (this.fileExtension.inputExtension === 'java') {
-        code = code.replace('class Main', `class ${this.randomName}`);
-      }
+      code = this.handleSpecialCases(code);
+
       await fsp.mkdir(`${this.submissionFileData.path}`, { recursive: true });
       await fsp.writeFile(`${this.submissionFileData.path}/${this.submissionFileData.inputFileName}.${this.fileExtension.inputExtension}`, code, {
         flag: 'w'
@@ -36,6 +35,13 @@ class FileManager {
     }
   }
 
+  private handleSpecialCases(code: string) {
+    if (this.fileExtension.inputExtension === 'java') {
+      code = code.replace('class Main', `class ${this.randomName}`);
+    }
+
+    return code;
+  }
   public async deleteSubmissionFile(): Promise<void> {
     try {
       await fsp.unlink(`${this.submissionFileData.path}/${this.submissionFileData.inputFileName}.${this.fileExtension.inputExtension}`);
