@@ -1,6 +1,6 @@
 {
   "name": "envoijs",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A minimalistic, robust and asynchronous code runner/judge",
   "main": "dist/app.js",
   "types": "dist/app.d.ts",
