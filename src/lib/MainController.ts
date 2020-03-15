@@ -40,20 +40,20 @@ export default class MainController {
     }
   }
 
-  public async runCodeWithTestCases(testCases: TestCase[]): Promise<SubmissionVerdict> {
+  public async runCodeWithTestCases(testCases: TestCase[], timeout: number): Promise<SubmissionVerdict> {
     try {
       const executionCommand = this.languageController.getExecutionCommand(this.fileManager.getSubmissionFileData());
-      const runResult: SubmissionVerdict = await this.codeRunner.runCodeWithTestCases(executionCommand, testCases);
+      const runResult: SubmissionVerdict = await this.codeRunner.runCodeWithTestCases(executionCommand, testCases, timeout);
       return runResult;
     } catch (err) {
       throw forkSubmissionVerdict(`RUNTIME ERROR\n${err.message ? err.message : ''}`, Verdict.RUNTIME);
     }
   }
 
-  public async runCode(input: string): Promise<SubmissionVerdict> {
+  public async runCode(input: string, timeout: number): Promise<SubmissionVerdict> {
     try {
       const executionCommand = this.languageController.getExecutionCommand(this.fileManager.getSubmissionFileData());
-      const runResult: SubmissionVerdict = await this.codeRunner.runCode(executionCommand, input);
+      const runResult: SubmissionVerdict = await this.codeRunner.runCode(executionCommand, input, timeout);
 
       return runResult;
     } catch (err) {

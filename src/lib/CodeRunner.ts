@@ -1,10 +1,10 @@
 import { SubmissionVerdict, Verdict } from '../interfaces/Verdict';
 import TestCase from '../dto/TestCase';
 
-import * as execa from 'execa';
+import * as execa from 'execa-tree-kill';
 
 export default class CodeRunner {
-  public async runCodeWithTestCases(executionCommand: string, testCases: TestCase[]): Promise<SubmissionVerdict> {
+  public async runCodeWithTestCases(executionCommand: string, testCases: TestCase[], timeout: number): Promise<SubmissionVerdict> {
     try {
       for (const testCase of testCases) {
         const input: string = testCase.input;
@@ -14,7 +14,7 @@ export default class CodeRunner {
           input: input,
           cleanup: true,
           stripFinalNewline: true,
-          timeout: 5000,
+          timeout: timeout,
           killSignal: 'SIGKILL'
         });
 
@@ -45,13 +45,13 @@ export default class CodeRunner {
     }
   }
 
-  public async runCode(executionCommand: string, input: string): Promise<SubmissionVerdict> {
+  public async runCode(executionCommand: string, input: string, timeout: number): Promise<SubmissionVerdict> {
     try {
       const { stdout } = await execa.command(executionCommand, {
         input: input,
         cleanup: true,
         stripFinalNewline: true,
-        timeout: 5000,
+        timeout: timeout,
         killSignal: 'SIGKILL'
       });
       return {

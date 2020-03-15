@@ -1,5 +1,5 @@
 import TestCase from 'dto/TestCase';
-import { IsString, IsNotEmpty, IsOptional, ValidateNested, IsIn } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, ValidateNested, IsIn, IsNumber } from 'class-validator';
 import Languages from '../interfaces/Languages';
 
 export default class Submission {
@@ -14,9 +14,21 @@ export default class Submission {
 
   @ValidateNested()
   @IsOptional()
-  public testCases: TestCase[] = [];
+  public testCases?: TestCase[] = [];
 
   @IsString()
   @IsOptional()
-  public input: string = null;
+  public input?: string = null;
+
+  @IsNumber()
+  @IsOptional()
+  public timeout?: number = 5000;
+
+  // constructor(sourceCode: string, language: string , testCases: TestCase[] =[],input:string=null,timeout:number=5000) {
+  //  this.sourceCode=sourceCode;
+  //  this.language=language;
+  //  this.testCases=testCases;
+  //  this.input=input;
+  //  this.timeout=timeout;
+  // }
 }
