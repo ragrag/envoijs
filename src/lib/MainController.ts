@@ -57,7 +57,7 @@ export default class MainController {
 
       return runResult;
     } catch (err) {
-      throw forkSubmissionVerdict(`RUNTIME ERROR`, Verdict.RUNTIME);
+      throw forkSubmissionVerdict(`RUNTIME ERROR\n${err.message ? err.message : ''}`, Verdict.RUNTIME);
     }
   }
 

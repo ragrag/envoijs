@@ -30,11 +30,6 @@ export default class CodeRunner {
 
         const { stdout } = await subprocess;
 
-        // const result = childProcess.execSync(data.executionCommand, {
-        //   input: input,
-        //   encoding: 'utf-8'
-        // });
-        // console.log(stdout, failed);
         // const userOutput = stdout.replace(/(\r\n|\n|\r)/gm, '');
         const userOutput = stdout;
         if (userOutput !== expectedOutput) {
@@ -54,16 +49,13 @@ export default class CodeRunner {
         verdict: Verdict.AC
       };
     } catch (err) {
-      // subprocess.kill('SIGTERM', { forceKillAfterTimeout: 500 });
-      // subprocess.kill('SIGKILL', {
-      //   forceKillAfterTimeout: 4000
-      // });
       if (err.timedOut) {
         return {
           output: `Time limit exceeded`,
           verdict: Verdict.TLE
         };
       }
+
       throw err;
     }
     // finally {
@@ -121,6 +113,7 @@ export default class CodeRunner {
           verdict: Verdict.TLE
         };
       }
+
       throw err;
     }
     // finally {

@@ -1,5 +1,5 @@
 diff --git a/node_modules/execa/lib/kill.js b/node_modules/execa/lib/kill.js
-index a684e2c..3e1b830 100644
+index a684e2c..3664d0a 100644
 --- a/node_modules/execa/lib/kill.js
 +++ b/node_modules/execa/lib/kill.js
 @@ -1,7 +1,7 @@
@@ -7,7 +7,7 @@ index a684e2c..3e1b830 100644
  const os = require('os');
  const onExit = require('signal-exit');
 -
-+const kill = require('tree-kill');
++const killTree = require('tree-kill');
  const DEFAULT_FORCE_KILL_TIMEOUT = 1000 * 5;
  
  // Monkey-patches `childProcess.kill()` to add `forceKillAfterTimeout` behavior
@@ -25,7 +25,7 @@ index a684e2c..3e1b830 100644
  // `childProcess.cancel()`
  const spawnedCancel = (spawned, context) => {
 -	const killResult = spawned.kill();
-+	const killResult = 	kill(spawned.pid, 'SIGKILL');
++	const killResult = 	killTree(spawned.pid, 'SIGKILL');
  
  	if (killResult) {
  		context.isCanceled = true;
@@ -35,7 +35,7 @@ index a684e2c..3e1b830 100644
  const timeoutKill = (spawned, signal, reject) => {
 -	spawned.kill(signal);
 +	// spawned.kill(signal);
-+	kill(spawned.pid, 'SIGKILL');
++	killTree(spawned.pid, 'SIGKILL');
  	reject(Object.assign(new Error('Timed out'), {timedOut: true, signal}));
  };
  
@@ -44,7 +44,7 @@ index a684e2c..3e1b830 100644
  
  	const removeExitHandler = onExit(() => {
 -		spawned.kill();
-+		kill(spawned.pid, 'SIGKILL');
++		killTree(spawned.pid, 'SIGKILL');
  	});
  
  	return timedPromise.finally(() => {

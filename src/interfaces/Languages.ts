@@ -2,6 +2,7 @@ enum Languages {
   CPP = 'c++',
   JAVA = 'java',
   PYTHON = 'python',
-  GO = 'go'
+  GO = 'go',
+  JAVASCRIPT = 'javascript'
 }
 export default Languages;

@@ -1,15 +1,15 @@
 import { LanguageController } from '../../interfaces/LanguageController';
 import SubmissionFile from '../../interfaces/SubmissionFile';
-import FileExtension from '../../interfaces/FileExtension';
+import FileExtension from 'interfaces/FileExtension';
 
-class PythonController implements LanguageController {
-  private fileExtension: FileExtension = { inputExtension: 'py', outputExtension: '' };
+class CppController implements LanguageController {
+  private fileExtension: FileExtension = { inputExtension: 'js', outputExtension: '' };
   public getExtension(): FileExtension {
     return this.fileExtension;
   }
 
   public getExecutionCommand(submissionFileData: SubmissionFile): string {
-    return `python ${submissionFileData.path}\\${submissionFileData.inputFileName}.${this.fileExtension.inputExtension}`;
+    return `node ${submissionFileData.path}\\${submissionFileData.inputFileName}.${this.fileExtension.inputExtension}`;
   }
 
   public getCompilationCommand(submissionFileData: SubmissionFile): string {
@@ -20,8 +20,8 @@ class PythonController implements LanguageController {
     return false;
   }
   public getCheckCommand(): string {
-    return `python --version`;
+    return `node --version`;
   }
 }
 
-export default PythonController;
+export default CppController;
