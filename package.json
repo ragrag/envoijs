@@ -1,7 +1,7 @@
 {
   "name": "envoijs",
   "version": "1.0.0",
-  "description": "a prograssive performant multi-language compiler/code-judge",
+  "description": "a minimalistic asynchronous compiler/code-judge",
   "main": "dist/app.js",
   "types": "dist/app.d.ts",
   "scripts": {
@@ -33,7 +33,6 @@
     "class-validator": "^0.11.0",
     "execa": "^4.0.0",
     "jest": "^25.1.0",
-    "microjob": "^0.7.0",
     "patch-package": "^6.2.1",
     "shortid": "^2.2.15",
     "tree-kill": "^1.2.2"
