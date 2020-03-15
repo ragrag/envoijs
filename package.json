@@ -6,7 +6,8 @@
   "types": "dist/app.d.ts",
   "scripts": {
     "start": "ts-node src/app",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "patch-package"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
   },
   "homepage": "https://github.com/ragrag/envoijs#readme",
   "devDependencies": {
+    "@types/execa": "^2.0.0",
     "@types/node": "^13.9.1",
     "@types/shortid": "0.0.29",
     "tslint": "^6.1.0",
@@ -29,8 +31,11 @@
   "dependencies": {
     "class-transformer": "^0.2.3",
     "class-validator": "^0.11.0",
+    "execa": "^4.0.0",
     "jest": "^25.1.0",
     "microjob": "^0.7.0",
-    "shortid": "^2.2.15"
+    "patch-package": "^6.2.1",
+    "shortid": "^2.2.15",
+    "tree-kill": "^1.2.2"
   }
 }

@@ -46,7 +46,7 @@ export default class MainController {
       const runResult: SubmissionVerdict = await this.codeRunner.runCodeWithTestCases(executionCommand, testCases);
       return runResult;
     } catch (err) {
-      throw forkSubmissionVerdict(`RUNTIME ERROR`, Verdict.RUNTIME);
+      throw forkSubmissionVerdict(`RUNTIME ERROR\n${err.message ? err.message : ''}`, Verdict.RUNTIME);
     }
   }
 
