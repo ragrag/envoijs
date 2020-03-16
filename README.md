@@ -4,7 +4,7 @@
 
 Envoi is a lightweight and robust code execution system capable of **executing** or **judging test cases** from source code across multiple languages that are easily extensible/integrated in your usage pattern
 
-Currently Envoi supports: **C++**, **Java**, **Python 3**, **Go**, **JavaScript (Node)**.
+Currently Envoi supports: **C++**, **Java**, **Python**, **Go**, **JavaScript (Node)**.
 
 ##### Envoi is fully compatible with TypeScript but can also be used seamlessly with JavaScript
 
@@ -13,7 +13,7 @@ Currently Envoi supports: **C++**, **Java**, **Python 3**, **Go**, **JavaScript 
 ## Installation
 
 Envoi requires the respective compile/run tools for each language intended to be used installed on the host system and added to PATH. These include
-| Langauge | Tool |
+| Language | Tool |
 | ------------- |:-------------:|
 | C++ | g++ |
 | Java | java jdk |
