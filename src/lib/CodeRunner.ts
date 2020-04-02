@@ -30,7 +30,7 @@ export default class CodeRunner {
       }
 
       return {
-        output: 'passed!',
+        output: '',
         verdict: Verdict.AC
       };
     } catch (err) {
