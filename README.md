@@ -6,6 +6,8 @@ Envoi is a lightweight and robust code execution system capable of **executing**
 
 Currently Envoi supports: **C++**, **Java**, **Python**, **Go**, **JavaScript (Node)**.
 
+Envoi Doesn't run in sandboxed mode so it's not encouraged to use in production for security risks
+
 ##### Envoi is fully compatible with TypeScript
 
 &nbsp;
